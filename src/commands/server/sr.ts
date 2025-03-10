@@ -24,15 +24,78 @@ interface M_ArchiveV {
 export default async function handle(command: Command) {
 	const folderDownload = `./src/server/web/public/cache/game/starrails`
 	const mainUrl = "https://autopatchos.starrails.com"
+	// sort old to new
 	const list = {
+		"V3.1Live": [
+			{
+				//  2/26/2025 6:32 AM
+				lua: { Version: 9541775, Suffix: "08e8af7801b1" }, // new
+				design: { Version: 9547765, Suffix: "713057990b1d" }, // new
+				asb: { Version: 9541591, Suffix: "bcf453d9fdcc" }, // new
+				ifix: { Version: 0, Suffix: "63f56c3a23df" }
+			},
+			{
+				//  2/26/2025 10:47 PM
+				lua: { Version: 9593433, Suffix: "7564031acba9" },
+				design: { Version: 9593657, Suffix: "e16284d5ef18" }, // new
+				asb: { Version: 9593433, Suffix: "23cb40d35d81" },
+				ifix: { Version: 0, Suffix: "63f56c3a23df" } // new
+			},
+			{
+				//  2/27/2025 10:42 PM (1)
+				lua: { Version: 9593433, Suffix: "7564031acba9" }, // new
+				design: { Version: 9609435, Suffix: "0279774025a8" }, // new
+				asb: { Version: 9593433, Suffix: "23cb40d35d81" },
+				ifix: { Version: 9609435, Suffix: "6ed706857502" }
+			},
+			{
+				//  2/27/2025 10:42 PM (2)
+				lua: { Version: 9609017, Suffix: "db6782cb6494" }, // new
+				design: { Version: 9609435, Suffix: "0279774025a8" },
+				asb: { Version: 9593433, Suffix: "23cb40d35d81" },
+				ifix: { Version: 9609435, Suffix: "6ed706857502" }
+			},
+			{
+				// 2/28/2025 8:14 PM (1)
+				lua: { Version: 9609017, Suffix: "db6782cb6494" }, // new
+				design: { Version: 9619913, Suffix: "d28c8c251102" },
+				asb: { Version: 9593433, Suffix: "23cb40d35d81" },
+				ifix: { Version: 9609435, Suffix: "6ed706857502" }
+			},
+			{
+				// 2/28/2025 8:14 PM (2)
+				lua: { Version: 9619913, Suffix: "f7fb364d2fe3" },
+				design: { Version: 9619913, Suffix: "d28c8c251102" }, // new
+				asb: { Version: 9593433, Suffix: "23cb40d35d81" }, // new
+				ifix: { Version: 9609435, Suffix: "6ed706857502" } // new
+			},
+			{
+				// 3/5/2025 4:23 PM
+				lua: { Version: 9619913, Suffix: "f7fb364d2fe3" },
+				design: { Version: 9646575, Suffix: "f2ffc71bfd3c" }, // new
+				asb: { Version: 9646899, Suffix: "dc5a5d311c68" },
+				ifix: { Version: 9648222, Suffix: "20fe9ae9c672" }
+			},
+			{
+				// 3/6/2025 2:52 PM
+				lua: { Version: 9619913, Suffix: "f7fb364d2fe3" },
+				design: { Version: 9662569, Suffix: "e0dbb645a641" },
+				asb: { Version: 9646899, Suffix: "dc5a5d311c68" },
+				ifix: { Version: 9648222, Suffix: "20fe9ae9c672" }
+			}
+		]
+		/*
 		"V3.0Live": [
+			{
+				design: { Version: 9426195, Suffix: "31633e67fc5b" }
+			},
 			{
 				asb: { Version: 9341358, Suffix: "d0c774f35be6" },
 				design: { Version: 9355287, Suffix: "7427e93fd0f0" },
 				lua: { Version: 9342153, Suffix: "d83b3bb34d87" },
 				ifix: { Version: 9350557, Suffix: "b452022dcada" }
 			}
-		]
+		]*/
 	}
 	const clients = ["Android", "Windows", "iOS"]
 

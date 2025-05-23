@@ -11,6 +11,7 @@ export default async function handle(command: Command) {
 
 	// object with the versions sorted in ascending order (make sure the order is correct to avoid 404 download error)
 	const list = {
+		/*
 		"5.0_live": [
 			{
 				res: { Version: 26161852, Suffix: "4c9dae0f9a" },
@@ -64,6 +65,37 @@ export default async function handle(command: Command) {
 				clientSilence: { Version: 29549132, Suffix: "c32325d9d4" },
 				res: { Version: 29332470, Suffix: "03eda7a0ec" }
 			}
+		],*/
+		"5.6_live": [
+			{
+				res: { Version: 32602175, Suffix: "abe14d5945" }
+			},
+			{
+				res: { Version: 32758199, Suffix: "d5fde3afac" },
+				client: { Version: 32900104, Suffix: "12a185db09" },
+				clientSilence: { Version: 32794202, Suffix: "99d480190b" }
+			},
+			{
+				res: { Version: 32934329, Suffix: "89c67de5fa" }
+			},
+			{
+				client: { Version: 32940315, Suffix: "3721514591" }
+			},
+			{
+				res: { Version: 33077790, Suffix: "41cf6f70cd" }
+			},
+			{
+				client: { Version: 33106573, Suffix: "96e9376ed1" },
+				clientSilence: { Version: 33106573, Suffix: "96e9376ed1" }
+			},
+			{
+				res: { Version: 33177015, Suffix: "54ae9c659b" }
+			},
+			{
+				res: { Version: 33273106, Suffix: "cbcec8716f" },
+				client: { Version: 33312925, Suffix: "3fc9557511" },
+				clientSilence: { Version: 33312925, Suffix: "3fc9557511" }
+			}
 		]
 	}
 
@@ -115,7 +147,7 @@ export default async function handle(command: Command) {
 						const saveFilePath = `${saveFileFolder}/${mapper}`
 
 						// Check if URL is cached
-                        /*
+						/*
 						if (cache[mapperUrl]) {
 							log.info(`Skipping: ${mapperUrl} (Cached 1)`)
 							continue
@@ -234,7 +266,7 @@ export default async function handle(command: Command) {
 									}
 								}
 							} else {
-								log.info(`MD5 check passed > ${gameFileSavePath}`)
+								log.info(`MD5 check passed > ${gameFileSavePath} > ${expectedMd5}`)
 								cache[gameFileUrl] = expectedMd5
 								await saveCache(CACHE_FILE, cache)
 							}

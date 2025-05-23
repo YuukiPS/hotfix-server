@@ -13,19 +13,31 @@ r.all("/", (req: Request, res: Response) => {
 
 // Game Data
 const otwDL = new Set()
-r.get("/data_game/:game/*", async (req: Request, res: Response) => {
+r.get("/data_game/:game/:server/*", async (req: Request, res: Response) => {
 	const logUser = `${req.ip} | `
 
 	try {
 		const p = req.params
 		const game = p.game
-		const url_only = decodeURI(p[0])
+		const server = p.server
+		var url_only = decodeURI(p[0])
 
 		const baseCachePath = `./src/server/web/public/cache/game/${game}`
 
+		/*
+		log.warn({
+			params: p,
+			query: req.query,
+			headers: req.headers
+		})
+		*/
+
 		// Determine base domain
 		let domainDL = ""
-		if (game === "starrails") {
+		if (game === "starrails" && server === "cn") {
+			domainDL = `https://autopatchcn.bhsr.com/${url_only}`
+			log.warn(logUser + `file ${domainDL} cn version`)
+		} else if (game === "starrails") {
 			domainDL = `https://autopatchos.starrails.com/${url_only}`
 		} else {
 			if (url_only.includes("3.2")) {

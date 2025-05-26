@@ -23,6 +23,9 @@ r.get("/data_game/:game/:server/*", async (req: Request, res: Response) => {
 		var url_only = decodeURI(p[0])
 
 		const baseCachePath = `./src/server/web/public/cache/game/${game}`
+		var baseheaders = {
+			"User-Agent": "Yuuki-Hotfix-Server"
+		}
 
 		/*
 		log.warn({
@@ -39,12 +42,64 @@ r.get("/data_game/:game/:server/*", async (req: Request, res: Response) => {
 			log.warn(logUser + `file ${domainDL} cn version`)
 		} else if (game === "starrails") {
 			domainDL = `https://autopatchos.starrails.com/${url_only}`
+		} else if (game === "bluearchive-data") {
+			domainDL = `https://prod-clientpatch.bluearchiveyostar.com/${url_only}`
+		} else if (game === "bluearchive-serverinfo") {
+			domainDL = `https://yostar-serverinfo.bluearchiveyostar.com/${url_only}`
+			//baseheaders = { "User-Agent": "BestHTTP/2 v2.4.0" }
+			// 1.57, TODO: support old server
+			/*
+			if (url_only.includes("r80_57_698bepistzmhu03bw8hp")) {
+				return res.json({
+					ConnectionGroups: [
+						{
+							Name: "Prod-Audit",
+							ManagementDataUrl: "https://prod-noticeindex.bluearchiveyostar.com/prod/index.json", // todo
+							IsProductionAddressables: true,
+							ApiUrl: "https://prod-game.bluearchiveyostar.com:5000/api/", // todo
+							GatewayUrl: "https://prod-gateway.bluearchiveyostar.com:5100/api/", // todo
+							KibanaLogUrl: "https://prod-logcollector.bluearchiveyostar.com:5300",
+							ProhibitedWordBlackListUri:
+								"https://prod-notice.bluearchiveyostar.com/prod/ProhibitedWord/blacklist.csv",
+							ProhibitedWordWhiteListUri:
+								"https://prod-notice.bluearchiveyostar.com/prod/ProhibitedWord/whitelist.csv",
+							CustomerServiceUrl: "https://bluearchive.jp/contact-1-hint",
+							OverrideConnectionGroups: [
+								{
+									Name: "1.0",
+									AddressablesCatalogUrlRoot:
+										"https://prod-clientpatch.bluearchiveyostar.com/m28_1_0_1_mashiro3"
+								},
+								{
+									Name: "1.57",
+									AddressablesCatalogUrlRoot:
+										"https://prod-clientpatch.bluearchiveyostar.com/r80_698bepistzmhu03bw8hp_2"
+								}
+							],
+							BundleVersion: "li3pmyogha"
+						}
+					]
+				})
+			}
+			*/
+		} else if (game === "bluearchive-notice") {
+			domainDL = `https://prod-noticeindex.bluearchiveyostar.com/prod/index.json`
 		} else {
 			if (url_only.includes("3.2")) {
 				domainDL = `https://ps.yuuki.me/data_game/genshin/${url_only}` // old server yuuki
 			} else {
 				domainDL = `https://autopatchhk.yuanshen.com/${url_only}`
 			}
+		}
+
+		if (domainDL.includes("bluearchive-notice") || domainDL.includes("bluearchive-serverinfo")) {
+			log.warn({
+				params: p,
+				query: req.query,
+				headers: req.headers,
+				domainDL
+			})
+			return res.status(500).send("Testing mode")
 		}
 
 		// Define file paths
@@ -87,7 +142,8 @@ r.get("/data_game/:game/:server/*", async (req: Request, res: Response) => {
 			try {
 				response = await axios.get(domainDL, {
 					responseType: "arraybuffer",
-					timeout: 1000 * 600
+					timeout: 1000 * 600,
+					headers: baseheaders
 				})
 			} catch (error) {
 				var c = error as AxiosError
@@ -117,7 +173,9 @@ r.get("/data_game/:game/:server/*", async (req: Request, res: Response) => {
 					return res.redirect(domainDL)
 				}
 			} else {
-				log.errorNoStack(logUser + `Error2 save file file ${domainDL}, issave: ` + issave)
+				log.errorNoStack(
+					logUser + `Error2 save file ${tempFilePath} > ${filePath} | url ${domainDL} | issave: ` + issave
+				)
 				otwDL.delete(domainDL)
 				return res.redirect(domainDL)
 			}
